@@ -80,4 +80,4 @@ npm run preview  # 組み立てた結果を確認（検索もここで動く）
 - 悩み広場の投稿フォームURL（`src/pages/nayami/index.astro` の `FORM_URL`）は未設定。
 - 入稿画面（Sveltia CMS）の設定は、実際のリポジトリ接続後に動作確認が必要。
 - 練習サイトのため `noindex` と `robots.txt` で検索エンジンを拒否している。本番公開時に見直す。
-- サンプル記事（`reviewer: sample`）は公開前に削除する。
+- サンプル記事（`reviewer: sample`）は公開前に削除する。。
