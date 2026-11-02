@@ -1,0 +1,14 @@
+---
+interface Props { sources: string[]; reviewer?: string; checkedAt?: Date; }
+const { sources, reviewer, checkedAt } = Astro.props;
+const fmt = (d?: Date) => d ? `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日` : '未確認';
+---
+<footer class="src">
+  {sources.length > 0 && (<><p class="t">出典</p><ul>{sources.map((s) => <li><a href={s} rel="noopener" target="_blank">{s}</a></li>)}</ul></>)}
+  <p class="c">確認者：{reviewer ?? '未確認'}　最終確認日：{fmt(checkedAt)}</p>
+</footer>
+<style>
+  .src { border-top: 1px dashed var(--line); padding-top: 16px; font-size: 14px; color: var(--ink-3); }
+  .t { font-weight: 700; }
+  ul { margin: 4px 0 8px; padding-left: 1.2em; word-break: break-all; }
+</style>

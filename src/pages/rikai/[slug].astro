@@ -1,0 +1,29 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import { getPublishedRikai, RIKAI_CATEGORY } from '../../lib/taxonomy';
+export async function getStaticPaths() {
+  return (await getPublishedRikai()).map((r) => ({ params: { slug: r.id }, props: { r } }));
+}
+const { r } = Astro.props;
+const d = r.data;
+const { Content } = await render(r);
+---
+<Base title={d.title} description={d.description}>
+  <article class="wrap section body" data-pagefind-body>
+    <p class="cat">{RIKAI_CATEGORY[d.category]}</p>
+    <h1 data-pagefind-meta="title">{d.title}</h1>
+    <p class="lead">{d.description}</p>
+    <div class="prose"><Content /></div>
+    <p class="note">この記事は一般的な情報です。個別の方の状態については、看護師・医師・リハビリ職などの専門職にご相談ください。</p>
+    <Sources sources={d.sources} reviewer={d.reviewer} checkedAt={d.checkedAt} />
+    <span hidden data-pagefind-filter="種類">理解</span>
+  </article>
+</Base>
+<style>
+  .body { max-width: 760px; display: flex; flex-direction: column; gap: 20px; }
+  .cat { color: var(--accent); font-size: 14px; }
+  h1 { font-size: clamp(26px, 4vw, 34px); }
+  .note { background: var(--card); border: 1.5px dashed #B5A68C; padding: 16px 18px; font-size: 15px; }
+</style>

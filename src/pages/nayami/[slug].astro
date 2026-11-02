@@ -1,0 +1,39 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPublishedNayami, getPublishedReku, NAYAMI_CATEGORY } from '../../lib/taxonomy';
+export async function getStaticPaths() {
+  const reku = await getPublishedReku();
+  return (await getPublishedNayami()).map((n) => ({
+    params: { slug: n.id },
+    props: { n, related: reku.filter((r) => n.data.related.includes(r.id)) },
+  }));
+}
+const { n, related } = Astro.props;
+const d = n.data;
+const { Content } = await render(n);
+---
+<Base title={d.title}>
+  <article class="wrap section body" data-pagefind-body>
+    <p class="c">{NAYAMI_CATEGORY[d.category]}</p>
+    <h1 data-pagefind-meta="title">{d.title}</h1>
+    <div class="q"><p class="label">相談</p><p>{d.question}</p></div>
+    <div class="a"><p class="label">こたえ</p><div class="prose"><Content /></div></div>
+    {related.length > 0 && (
+      <div><h2 class="h2">この悩みに合うレク</h2>
+      <ul class="rel">{related.map((r) => <li><a href={`/reku/${r.id}/`}>{r.data.title}</a></li>)}</ul></div>
+    )}
+    <p><a href="/nayami/">悩み広場にもどる</a></p>
+    <span hidden data-pagefind-filter="種類">悩み</span>
+  </article>
+</Base>
+<style>
+  .body { max-width: 760px; display: flex; flex-direction: column; gap: 20px; }
+  .c { color: var(--accent); font-size: 14px; }
+  h1 { font-size: clamp(24px, 4vw, 32px); }
+  .q { background: var(--tape-bg); padding: 20px 22px; transform: rotate(-.5deg); }
+  .a { background: var(--card); border: 1px solid var(--line-2); padding: 20px 22px; }
+  .label { font-weight: 700; font-size: 14px; color: var(--ink-3); margin-bottom: 6px; }
+  .h2 { font-size: 20px; margin-bottom: 8px; }
+  .rel { padding-left: 1.2em; margin: 0; }
+</style>

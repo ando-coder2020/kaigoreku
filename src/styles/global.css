@@ -1,0 +1,76 @@
+/* 介護レク図鑑 デザイントークン（壁面飾りモチーフ） */
+:root {
+  --paper: #F6F1E7;      /* 模造紙 */
+  --wall: #EFE6D4;       /* 壁 */
+  --card: #FFFDF8;       /* 画用紙 */
+  --ink: #2B2622;        /* 墨 */
+  --ink-2: #4A4038;
+  --ink-3: #6B5F52;
+  --line: #CBBFA8;
+  --line-2: #E2D7C3;
+  --tape: #E6C15A;       /* マスキングテープ */
+  --tape-bg: #F5E7BE;
+  --tape-fg: #5A4510;
+  --accent: #8A3F1F;     /* 紅葉（文字用の濃い色） */
+  --sakura: #E8A3A8; --wakaba: #5E9E73; --momiji: #D2703A; --yukizora: #4C7FB0;
+  --font-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif;
+  --font-body: 'BIZ UDPGothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  --wrap: 1120px;
+  --radius: 6px;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.85;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 3px solid var(--yukizora); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.45; margin: 0; }
+p { margin: 0; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: 20px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* マスキングテープ風のチップ */
+.chip { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; background: var(--tape-bg); color: var(--tape-fg); text-decoration: none; font-size: 15px; transform: rotate(-1deg); }
+.chip:nth-child(even) { transform: rotate(1deg); }
+.chip:hover { color: var(--ink); }
+.chip.is-small { min-height: 0; padding: 4px 12px; font-size: 14px; transform: none; }
+
+/* テープで留めた色紙 */
+.paper { position: relative; background: var(--card); border: 1px solid var(--line-2); transition: transform .2s ease; }
+.paper::before { content: ''; position: absolute; top: -9px; left: 42%; width: 58px; height: 18px; background: var(--tape); opacity: .85; transform: rotate(-4deg); }
+a.paper:hover { transform: translateY(-4px) rotate(0deg) !important; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-radius: var(--radius); background: var(--ink); color: var(--card); font-weight: 700; font-size: 16px; text-decoration: none; border: none; cursor: pointer; font-family: inherit; }
+.btn:hover { color: var(--card); background: #4A4038; }
+.btn.is-tape { background: var(--tape); color: var(--ink); }
+.btn.is-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+
+.section { padding-block: 48px; }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 20px; }
+.section-head h2 { font-size: 24px; }
+.lead { color: var(--ink-2); }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  .section { padding-block: 32px; }
+}
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; padding: 0; }
+  .paper::before { display: none; }
+}

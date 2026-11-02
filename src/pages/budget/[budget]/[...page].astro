@@ -1,0 +1,13 @@
+---
+import RekuListPage from '../../../components/RekuListPage.astro';
+import { BUDGET, BUDGET_SLUG, getPublishedReku, type BudgetKey } from '../../../lib/taxonomy';
+import { PAGE_SIZE } from '../../../lib/paging';
+export async function getStaticPaths({ paginate }) {
+  const list = await getPublishedReku();
+  return (Object.keys(BUDGET) as BudgetKey[]).flatMap((b) =>
+    paginate(list.filter((r) => r.data.budget === b), { params: { budget: BUDGET_SLUG[b] }, pageSize: PAGE_SIZE, props: { label: BUDGET[b] } })
+  );
+}
+const { page, label } = Astro.props;
+---
+<RekuListPage page={page} heading={`予算 ${label} のレク`} lead="特別なイベントの計画に。金額は材料費の目安です。" />

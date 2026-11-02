@@ -1,0 +1,15 @@
+---
+import RekuListPage from '../../../components/RekuListPage.astro';
+import { SEASONS, getPublishedReku, type SeasonKey } from '../../../lib/taxonomy';
+import { PAGE_SIZE } from '../../../lib/paging';
+export async function getStaticPaths({ paginate }) {
+  const list = await getPublishedReku();
+  return (Object.keys(SEASONS) as SeasonKey[]).flatMap((s) =>
+    paginate(list.filter((r) => r.data.season.includes(s) || (s !== 'all' && r.data.season.includes('all'))), {
+      params: { season: s }, pageSize: PAGE_SIZE, props: { label: SEASONS[s].label },
+    })
+  );
+}
+const { page, label } = Astro.props;
+---
+<RekuListPage page={page} heading={`${label}のレク`} lead={label === '通年' ? '季節を問わずできるレク。' : `${label}の行事や季節感を取り入れたレク（通年のものも含みます）。`} />

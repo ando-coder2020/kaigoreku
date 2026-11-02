@@ -1,0 +1,56 @@
+---
+// トップの壁面。色紙が1枚ずつ貼られて完成する（動きを減らす設定では静止）
+import { WALLS } from '../lib/walls';
+import { monthToSeason } from '../lib/taxonomy';
+const s = monthToSeason(new Date().getMonth() + 1);
+const w = WALLS[s];
+---
+<div class="wall" role="img" aria-label={w.label} data-walls={JSON.stringify(WALLS)} style={`--c1:${w.c1};--c2:${w.c2};--c3:${w.c3}`}>
+  <span class="pin p1" style="--r:-6deg;--d:.1s"></span>
+  <span class="pin p2" style="--r:10deg;--d:.35s"></span>
+  <span class="pin p3" style="--r:-14deg;--d:.6s"></span>
+  <span class="pin p4" style="--r:8deg;--d:.85s"></span>
+  <span class="pin p5" style="--r:-4deg;--d:1.1s"></span>
+  <span class="pin t1" style="--r:-18deg;--d:.2s"></span>
+  <span class="pin t2" style="--r:14deg;--d:.45s"></span>
+  <span class="pin t3" style="--r:-10deg;--d:.7s"></span>
+  <span class="pin caption" style="--r:2deg;--d:1.35s" data-wall-label>{w.label}</span>
+</div>
+<script>
+  // ビルドした月と閲覧した月がずれても、壁面は閲覧日の季節に合わせる
+  const el = document.querySelector<HTMLElement>('.wall');
+  if (el) {
+    const walls = JSON.parse(el.dataset.walls || '{}');
+    const m = new Date().getMonth() + 1;
+    const s = m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : m >= 9 && m <= 11 ? 'autumn' : 'winter';
+    const w = walls[s];
+    if (w) {
+      el.style.setProperty('--c1', w.c1); el.style.setProperty('--c2', w.c2); el.style.setProperty('--c3', w.c3);
+      el.setAttribute('aria-label', w.label);
+      const cap = el.querySelector('[data-wall-label]'); if (cap) cap.textContent = w.label;
+    }
+  }
+</script>
+<style>
+  .wall { position: relative; height: 380px; background: var(--wall); border-radius: var(--radius); overflow: hidden; }
+  .pin { position: absolute; display: block; animation: pin .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d); transform: rotate(var(--r)); }
+  @keyframes pin {
+    0% { opacity: 0; transform: translateY(-28px) rotate(var(--r)) scale(1.05); }
+    70% { opacity: 1; transform: translateY(3px) rotate(var(--r)); }
+    100% { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+  }
+  .p1 { left: 12%; top: 14%; width: 150px; height: 120px; background: var(--c1); border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%; }
+  .p2 { left: 46%; top: 8%; width: 110px; height: 96px; background: var(--c2); border-radius: 52% 48% 58% 42% / 46% 56% 44% 54%; }
+  .p3 { right: 8%; top: 30%; width: 130px; height: 112px; background: var(--c3); border-radius: 42% 58% 50% 50% / 56% 46% 54% 44%; }
+  .p4 { left: 26%; top: 52%; width: 120px; height: 100px; background: var(--c2); border-radius: 50% 50% 46% 54% / 44% 56% 44% 56%; }
+  .p5 { right: 22%; bottom: 10%; width: 96px; height: 84px; background: var(--c1); border-radius: 54% 46% 52% 48% / 48% 52% 48% 52%; }
+  .t1, .t2, .t3 { width: 54px; height: 16px; background: var(--tape); opacity: .9; }
+  .t1 { left: 16%; top: 11%; } .t2 { left: 50%; top: 5%; } .t3 { right: 12%; top: 27%; }
+  .caption { left: 6%; bottom: 8%; background: var(--card); padding: 8px 16px; font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+  @media (max-width: 720px) {
+    .wall { height: 220px; }
+    .p1 { width: 92px; height: 76px; } .p2 { width: 66px; height: 58px; } .p3 { width: 78px; height: 66px; }
+    .p4 { width: 70px; height: 60px; } .p5 { width: 58px; height: 50px; }
+    .caption { font-size: 13px; }
+  }
+</style>

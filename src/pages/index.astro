@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import Wall from '../components/Wall.astro';
+import Situations from '../components/Situations.astro';
+import RekuCard from '../components/RekuCard.astro';
+import { SEASONS, BODY, BUDGET, BUDGET_SLUG, getPublishedReku, getPublishedJidai, getPublishedNayami, pickForMonth, ageLabel, NAYAMI_CATEGORY } from '../lib/taxonomy';
+
+const month = new Date().getMonth() + 1;
+const list = await getPublishedReku();
+const picks = pickForMonth(list, month, 6);
+const jidai = (await getPublishedJidai()).slice(0, 3);
+const nayami = (await getPublishedNayami()).slice(0, 3);
+const noteColors = ['#F5E7BE', '#F7D9DB', '#D6E8DB'];
+---
+<Base>
+  <section class="wrap hero">
+    <div class="copy">
+      <p class="en">Today’s rec, tomorrow’s memory.</p>
+      <h1>きょうの笑顔が、<br />だれかの思い出になる。</h1>
+      <p class="lead">季節の壁面を眺めるように、今日のレクが見つかる図鑑。<br />準備の手間、司会の得意不得意、予算から選べます。</p>
+      <form action="/reku/" method="get" role="search" class="search">
+        <label for="top-q" class="sr-only">レクを検索</label>
+        <input id="top-q" name="q" type="search" placeholder="例：秋 座ったまま 0円" />
+        <button type="submit" class="btn">探す</button>
+      </form>
+    </div>
+    <div class="wall-wrap"><Wall /></div>
+  </section>
+
+  <Situations />
+
+  <section class="wrap section" aria-labelledby="filter-h">
+    <h2 id="filter-h" class="h2">条件で探す</h2>
+    <div class="filters">
+      <div><p class="ft">季節・行事</p><div class="chips">
+        {(['spring', 'summer', 'autumn', 'winter'] as const).map((s) => <a class="chip" href={`/season/${s}/`} style={`background:${SEASONS[s].bg};color:${SEASONS[s].fg}`}>{SEASONS[s].label}</a>)}
+      </div></div>
+      <div><p class="ft">きたえる</p><div class="chips">
+        {(Object.keys(BODY) as (keyof typeof BODY)[]).map((b) => <a class="chip" href={`/purpose/${b}/`}>{BODY[b]}</a>)}
+      </div></div>
+      <div><p class="ft">スタッフの負担</p><div class="chips">
+        <a class="chip" href="/reku/?体力=軽い">体力 軽い</a>
+        <a class="chip" href="/reku/?司会=軽い">司会 軽い</a>
+        <a class="chip" href="/reku/?準備=軽い">準備 軽い</a>
+      </div></div>
+      <div><p class="ft">予算（イベント用）</p><div class="chips">
+        {(Object.keys(BUDGET) as (keyof typeof BUDGET)[]).map((b) => <a class="chip" href={`/budget/${BUDGET_SLUG[b]}/`}>{BUDGET[b]}</a>)}
+      </div></div>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="pick-h">
+    <div class="section-head"><h2 id="pick-h">{month}月のおすすめ</h2><a href="/reku/">すべて見る</a></div>
+    {picks.length > 0
+      ? <div class="grid-cards">{picks.map((r, i) => <RekuCard reku={r} index={i} />)}</div>
+      : <p>今月のおすすめは準備中です。</p>}
+  </section>
+
+  <section class="band" id="omoide">
+    <div class="wrap band-inner">
+      <div class="band-copy">
+        <p class="en">Keepsakes</p>
+        <h2>終わったあとも、<br />壁に残るレク。</h2>
+        <p class="lead">作品・写真・寄せ書きなど、ご家族との会話のきっかけになるものを集めました。</p>
+        <a href="/omoide/" class="btn">形に残るレクを見る</a>
+      </div>
+      <div class="dl">
+        <p class="en">Coloring sheets</p>
+        <h2>塗り絵は、壁面の下絵。</h2>
+        <p class="lead">太い線・大きめの区画で塗りやすく。塗り終えたら、そのまま今月の壁面に。</p>
+        <a href="/download/">塗り絵・素材の一覧へ</a>
+      </div>
+    </div>
+  </section>
+
+  {jidai.length > 0 && (
+    <section class="wrap section" aria-labelledby="jidai-h">
+      <p class="en">Know them better</p>
+      <h2 id="jidai-h" class="h2">あの方が、二十歳だったころ。</h2>
+      <p class="lead mb">生まれ年ごとに、流行・暮らし・好まれた遊びをまとめた年表です。</p>
+      <div class="timeline">
+        {jidai.map((j) => (
+          <a href={`/jidai/${j.id}/`}>
+            <span class="tl-year">{j.data.birthFrom}〜{j.data.birthTo}年生まれ</span>
+            <span class="tl-age">{ageLabel(j.data.birthFrom, j.data.birthTo)}</span>
+            <span class="tl-sum">{j.data.summary}</span>
+          </a>
+        ))}
+      </div>
+      <p class="more"><a href="/jidai/">すべての年代を見る</a>　<a href="/rikai/">高齢者を理解する</a></p>
+    </section>
+  )}
+
+  <section class="board" aria-labelledby="nayami-h">
+    <div class="wrap section">
+      <p class="en on-dark">Rec counseling board</p>
+      <h2 id="nayami-h" class="h2">レクの悩み広場</h2>
+      <p class="lead mb">付箋に書くように、気軽に相談を。編集部と現場の先輩が答えます。</p>
+      <div class="notes">
+        {nayami.map((n, i) => (
+          <a href={`/nayami/${n.id}/`} class="note" style={`background:${noteColors[i % 3]};transform:rotate(${[-1.5, 1, -0.8][i % 3]}deg)`}>
+            <span class="note-cat">{NAYAMI_CATEGORY[n.data.category]}</span>
+            <span>{n.data.title}</span>
+          </a>
+        ))}
+      </div>
+      <a href="/nayami/" class="btn is-tape">悩みを見る・付箋に書く</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; padding-block: 40px 32px; }
+  .copy { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .wall-wrap { flex: 1 1 420px; min-width: 0; }
+  .en { font-size: 15px; color: var(--accent); }
+  h1 { font-size: clamp(30px, 4.6vw, 46px); }
+  .search { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .search input { flex: 1 1 220px; min-width: 0; height: 52px; padding: 0 16px; font-size: 16px; font-family: inherit; border: 1.5px solid var(--ink); border-radius: var(--radius); background: var(--card); color: var(--ink); }
+  .h2 { font-size: 24px; margin-bottom: 16px; }
+  .mb { margin-bottom: 24px; }
+  .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .ft { font-size: 14px; font-weight: 700; color: var(--ink-3); margin-bottom: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .band { background: var(--wall); }
+  .band-inner { display: flex; flex-wrap: wrap; gap: 32px; padding-block: 56px; }
+  .band-copy, .dl { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .band h2 { font-size: 26px; }
+  .dl { background: var(--card); border: 1.5px dashed #B5A68C; padding: 24px; }
+  .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border-top: 3px solid var(--ink); }
+  .timeline a { display: flex; flex-direction: column; gap: 4px; padding: 20px; text-decoration: none; color: var(--ink); border-right: 1px dashed var(--line); }
+  .timeline a:last-child { border-right: none; }
+  .tl-year { font-size: 13px; color: var(--ink-3); }
+  .tl-age { font-family: var(--font-display); font-weight: 700; font-size: 22px; }
+  .more { margin-top: 16px; }
+  .board { background: var(--ink); color: var(--card); }
+  .board .h2 { color: var(--card); }
+  .board .lead { color: #E8DFD0; }
+  .on-dark { color: var(--tape); }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 32px; }
+  .note { display: flex; flex-direction: column; gap: 8px; padding: 22px; color: var(--ink); text-decoration: none; }
+  .note-cat { font-size: 13px; color: var(--ink-3); }
+  @media (max-width: 720px) {
+    .hero { padding-block: 0 20px; gap: 20px; }
+    .wall-wrap { order: -1; margin-inline: -20px; }
+    .copy .lead br { display: none; }
+  }
+</style>

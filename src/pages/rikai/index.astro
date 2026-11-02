@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedRikai, RIKAI_CATEGORY } from '../../lib/taxonomy';
+const list = await getPublishedRikai();
+const cats = Object.keys(RIKAI_CATEGORY) as (keyof typeof RIKAI_CATEGORY)[];
+---
+<Base title="高齢者を理解する" description="体や心の変化、伝え方・聞き方の基本。">
+  <section class="wrap section">
+    <h1 class="h1">高齢者を理解する</h1>
+    <p class="lead">レクの前に知っておきたい、体や心の変化と、伝え方・聞き方の基本。すべて専門職の確認を経て掲載しています。</p>
+    {cats.map((c) => {
+      const items = list.filter((r) => r.data.category === c);
+      return items.length > 0 && (
+        <section class="cat">
+          <h2>{RIKAI_CATEGORY[c]}</h2>
+          <ul>{items.map((r) => <li><a href={`/rikai/${r.id}/`}><b>{r.data.title}</b><span>{r.data.description}</span></a></li>)}</ul>
+        </section>
+      );
+    })}
+    {list.length === 0 && <p class="empty">記事は準備中です。<a href="/jidai/">年代別の時代背景</a>を先にご覧ください。</p>}
+  </section>
+</Base>
+<style>
+  .h1 { font-size: 32px; margin-bottom: 8px; }
+  .cat { margin-top: 32px; }
+  .cat h2 { font-size: 22px; margin-bottom: 12px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  li a { display: flex; flex-direction: column; padding: 14px 18px; background: var(--card); border: 1px solid var(--line-2); text-decoration: none; color: var(--ink); }
+  li span { font-size: 14px; color: var(--ink-3); }
+  .empty { padding: 24px 0; }
+</style>

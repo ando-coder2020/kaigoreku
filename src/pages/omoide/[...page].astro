@@ -1,0 +1,11 @@
+---
+import RekuListPage from '../../components/RekuListPage.astro';
+import { getPublishedReku } from '../../lib/taxonomy';
+import { PAGE_SIZE } from '../../lib/paging';
+export async function getStaticPaths({ paginate }) {
+  const list = await getPublishedReku();
+  return paginate(list.filter((r) => r.data.keepsake), { pageSize: PAGE_SIZE });
+}
+const { page } = Astro.props;
+---
+<RekuListPage page={page} heading="形に残るレク" lead="作品・写真・寄せ書きなど、終わったあとも壁に残り、ご家族との会話のきっかけになるレク。" />

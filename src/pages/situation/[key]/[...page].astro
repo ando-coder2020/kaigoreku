@@ -1,0 +1,15 @@
+---
+import RekuListPage from '../../../components/RekuListPage.astro';
+import { SITUATIONS, getPublishedReku, type SituationKey } from '../../../lib/taxonomy';
+import { PAGE_SIZE } from '../../../lib/paging';
+export async function getStaticPaths({ paginate }) {
+  const list = await getPublishedReku();
+  return (Object.keys(SITUATIONS) as SituationKey[]).flatMap((k) =>
+    paginate(list.filter((r) => SITUATIONS[k].test(r)), {
+      params: { key: k }, pageSize: PAGE_SIZE, props: { label: SITUATIONS[k].label, note: SITUATIONS[k].note },
+    })
+  );
+}
+const { page, label, note } = Astro.props;
+---
+<RekuListPage page={page} heading={label} lead={note} />

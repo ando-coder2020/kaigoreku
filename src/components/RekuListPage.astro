@@ -1,0 +1,26 @@
+---
+// 季節別・目的別・状況別・予算別の一覧ページで共通に使う
+import Base from '../layouts/Base.astro';
+import RekuCard from './RekuCard.astro';
+import Pagination from './Pagination.astro';
+import type { Page } from 'astro';
+import type { Reku } from '../lib/taxonomy';
+interface Props { page: Page<Reku>; heading: string; lead?: string; }
+const { page, heading, lead } = Astro.props;
+---
+<Base title={heading} description={lead}>
+  <section class="wrap section">
+    <h1 class="h1">{heading}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <p class="count">{page.total}件</p>
+    {page.data.length > 0
+      ? <div class="grid-cards">{page.data.map((r, i) => <RekuCard reku={r} index={i} />)}</div>
+      : <p class="empty">まだ記事がありません。<a href="/reku/">ほかの条件で探す</a></p>}
+    <Pagination prev={page.url.prev} next={page.url.next} current={page.currentPage} last={page.lastPage} />
+  </section>
+</Base>
+<style>
+  .h1 { font-size: 32px; margin-bottom: 8px; }
+  .count { color: var(--ink-3); font-size: 14px; margin: 8px 0 24px; }
+  .empty { padding: 32px 0; }
+</style>

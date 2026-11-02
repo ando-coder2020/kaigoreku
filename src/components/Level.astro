@@ -1,0 +1,7 @@
+---
+import { LEVEL_WORD, levelDots } from '../lib/taxonomy';
+interface Props { label: string; value: 1 | 2 | 3; dots?: boolean; }
+const { label, value, dots = false } = Astro.props;
+---
+<span class="level">{label} {dots && <span aria-hidden="true">{levelDots(value)} </span>}<b>{LEVEL_WORD[value]}</b></span>
+<style>.level { white-space: nowrap; } b { font-weight: 700; }</style>

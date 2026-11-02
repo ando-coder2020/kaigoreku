@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="お気に入り">
+  <section class="wrap section">
+    <h1 class="h1">お気に入り</h1>
+    <p class="lead">この端末のブラウザに保存されています。別のスマホやパソコンとは共有されません。</p>
+    <ul id="fav" class="list"></ul>
+    <p id="empty" class="empty">まだありません。レクのページの「お気に入りに追加」から保存できます。<a href="/reku/">レクを探す</a></p>
+  </section>
+</Base>
+<script>
+  import { getFavorites } from '../lib/favorites';
+  const list = getFavorites();
+  const ul = document.getElementById('fav')!;
+  if (list.length > 0) document.getElementById('empty')!.hidden = true;
+  list.forEach((f) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `/reku/${encodeURIComponent(f.id)}/`;
+    a.textContent = f.title;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+</script>
+<style>
+  .h1 { font-size: 32px; margin-bottom: 8px; }
+  .list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 10px; }
+  .list :global(a) { display: block; padding: 14px 18px; background: var(--card); border: 1px solid var(--line-2); text-decoration: none; color: var(--ink); font-weight: 700; }
+  .empty { padding: 8px 0; }
+</style>

@@ -1,0 +1,34 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import { getPublishedJidai, ageLabel } from '../../lib/taxonomy';
+export async function getStaticPaths() {
+  return (await getPublishedJidai()).map((j) => ({ params: { slug: j.id }, props: { j } }));
+}
+const { j } = Astro.props;
+const d = j.data;
+const { Content } = await render(j);
+---
+<Base title={d.title} description={d.summary}>
+  <article class="wrap section body" data-pagefind-body>
+    <p class="y">{d.birthFrom}〜{d.birthTo}年生まれ　{ageLabel(d.birthFrom, d.birthTo)}</p>
+    <h1 data-pagefind-meta="title">{d.title}</h1>
+    <p class="lead">{d.summary}</p>
+    {d.topics.length > 0 && (
+      <dl class="topics">{d.topics.map((t) => <div class="paper"><dt>{t.label}</dt><dd>{t.text}</dd></div>)}</dl>
+    )}
+    <div class="prose"><Content /></div>
+    <Sources sources={d.sources} reviewer={d.reviewer} checkedAt={d.checkedAt} />
+    <span hidden data-pagefind-filter="種類">年代</span>
+  </article>
+</Base>
+<style>
+  .body { max-width: 780px; display: flex; flex-direction: column; gap: 20px; }
+  .y { color: var(--ink-3); font-size: 14px; }
+  h1 { font-size: clamp(26px, 4vw, 34px); }
+  .topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin: 12px 0; }
+  .topics div { padding: 18px; }
+  .topics dt { font-weight: 700; font-family: var(--font-display); }
+  .topics dd { margin: 4px 0 0; }
+</style>

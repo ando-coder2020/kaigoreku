@@ -1,0 +1,14 @@
+---
+interface Props { id: string; title: string; }
+const { id, title } = Astro.props;
+---
+<button type="button" class="btn is-outline no-print" data-fav={JSON.stringify({ id, title })}>お気に入りに追加</button>
+<script>
+  import { toggleFavorite, isFavorite } from '../lib/favorites';
+  document.querySelectorAll<HTMLButtonElement>('[data-fav]').forEach((btn) => {
+    const item = JSON.parse(btn.dataset.fav!);
+    const sync = () => { const on = isFavorite(item.id); btn.textContent = on ? 'お気に入りから外す' : 'お気に入りに追加'; btn.setAttribute('aria-pressed', String(on)); };
+    sync();
+    btn.addEventListener('click', () => { toggleFavorite(item); sync(); });
+  });
+</script>

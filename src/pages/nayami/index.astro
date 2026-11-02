@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedNayami, NAYAMI_CATEGORY } from '../../lib/taxonomy';
+const list = await getPublishedNayami();
+const colors = ['#F5E7BE', '#F7D9DB', '#D6E8DB', '#D3E0EE'];
+// 投稿フォームの送り先（Googleフォーム等のURLに差し替え）
+const FORM_URL = '[投稿フォームのURL]';
+---
+<Base title="レクの悩み広場" description="レクの悩みと、編集部・現場の先輩からの答え。">
+  <section class="board">
+    <div class="wrap section">
+      <h1 class="h1">レクの悩み広場</h1>
+      <p class="lead">付箋に書くように、気軽に相談を。編集部と現場の先輩が答えます。いただいた相談は、個人や施設が特定できる部分を外してから掲載します。</p>
+      <div class="notes">
+        {list.map((n, i) => (
+          <a href={`/nayami/${n.id}/`} class="note" style={`background:${colors[i % 4]};transform:rotate(${[-1.5, 1, -0.8, 0.6][i % 4]}deg)`}>
+            <span class="c">{NAYAMI_CATEGORY[n.data.category]}</span>
+            <span>{n.data.title}</span>
+          </a>
+        ))}
+      </div>
+      <div class="post">
+        <h2>悩みを付箋に書く</h2>
+        <p>利用者さんのお名前、施設名、ご自身のお名前は書かないでください。</p>
+        <a class="btn is-tape" href={FORM_URL}>相談フォームを開く</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .board { background: var(--ink); color: var(--card); }
+  .h1 { font-size: 32px; margin-bottom: 8px; color: var(--card); }
+  .lead { color: #E8DFD0; max-width: 720px; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; margin: 32px 0 40px; }
+  .note { display: flex; flex-direction: column; gap: 8px; padding: 22px; color: var(--ink); text-decoration: none; min-height: 120px; }
+  .c { font-size: 13px; color: var(--ink-3); }
+  .post { border: 1.5px dashed #8C7F6C; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .post h2 { font-size: 22px; color: var(--card); }
+  .post p { color: #E8DFD0; }
+</style>

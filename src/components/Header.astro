@@ -1,0 +1,32 @@
+---
+const nav = [
+  ['/reku/', 'レクを探す'],
+  ['/season/autumn/', '季節・行事'],
+  ['/omoide/', '形に残るレク'],
+  ['/download/', '塗り絵・素材'],
+  ['/jidai/', '高齢者を知る'],
+  ['/nayami/', '悩み広場'],
+];
+const path = Astro.url.pathname;
+---
+<header class="site-header no-print">
+  <div class="wrap inner">
+    <a href="/" class="logo"><span class="logo-ja">介護レク図鑑</span><span class="logo-en">Kaigo Rec Zukan</span></a>
+    <nav aria-label="メインメニュー" class="nav">
+      {nav.map(([href, label]) => (
+        <a href={href} aria-current={path.startsWith(href.split('/').slice(0, 2).join('/') + '/') ? 'page' : undefined}>{label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { border-bottom: 1px dashed var(--line); }
+  .inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 12px; }
+  .logo { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink); min-height: 44px; align-items: center; }
+  .logo-ja { font-family: var(--font-display); font-weight: 700; font-size: 23px; }
+  .logo-en { font-size: 12px; color: var(--ink-3); }
+  .nav { display: flex; flex-wrap: wrap; gap: 0 18px; font-size: 15px; }
+  .nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
+  .nav a[aria-current='page'] { box-shadow: inset 0 -3px 0 var(--tape); }
+  @media (max-width: 720px) { .nav { display: none; } }
+</style>

@@ -1,0 +1,29 @@
+---
+import Level from './Level.astro';
+import { BODY, BUDGET, type Reku } from '../lib/taxonomy';
+interface Props { reku: Reku; index?: number; }
+const { reku, index = 0 } = Astro.props;
+const d = reku.data;
+const tilt = [-1, 0.8, -0.6, 0.5][index % 4];
+const tint = ['#F3D6C4', '#D6E8DB', '#D3E0EE', '#F7D9DB'][index % 4];
+const tags = [...d.body.map((b) => BODY[b]), d.keepsake ? '形に残る' : null, BUDGET[d.budget]].filter(Boolean);
+---
+<a href={`/reku/${reku.id}/`} class="paper card" style={`transform: rotate(${tilt}deg)`}>
+  {d.image
+    ? <img src={d.image} alt="" loading="lazy" width="400" height="300" class="thumb" />
+    : <div class="thumb" style={`background:${tint}`} aria-hidden="true"></div>}
+  <h3 class="title">{d.title}</h3>
+  <p class="tags">{tags.join('／')}</p>
+  <p class="loads">
+    <Level label="体力" value={d.load.physical} />
+    <Level label="司会" value={d.load.facilitation} />
+    <Level label="準備" value={d.load.prep} />
+  </p>
+</a>
+<style>
+  .card { display: block; text-decoration: none; color: var(--ink); padding: 16px 16px 20px; }
+  .thumb { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .title { font-size: 19px; margin: 14px 0 4px; }
+  .tags { font-size: 14px; color: var(--ink-3); margin-bottom: 8px; }
+  .loads { display: flex; flex-wrap: wrap; gap: 2px 14px; font-size: 14px; }
+</style>

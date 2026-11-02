@@ -1,0 +1,156 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Level from '../../components/Level.astro';
+import RekuCard from '../../components/RekuCard.astro';
+import FavButton from '../../components/FavButton.astro';
+import { SEASONS, BODY, BUDGET, BUDGET_SLUG, LEVEL_WORD, SITUATIONS, situationsOf, getPublishedReku } from '../../lib/taxonomy';
+
+export async function getStaticPaths() {
+  const list = await getPublishedReku();
+  return list.map((reku) => ({ params: { slug: reku.id }, props: { reku, list } }));
+}
+const { reku, list } = Astro.props;
+const d = reku.data;
+const { Content } = await render(reku);
+const sits = situationsOf(reku);
+const related = list
+  .filter((r) => r.id !== reku.id && r.data.body.some((b) => d.body.includes(b)))
+  .slice(0, 3);
+const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日` : '';
+---
+<Base title={d.title} description={d.description}>
+  <div class="wrap crumbs no-print">
+    <a href="/">トップ</a> ／ <a href="/reku/">レクを探す</a> ／ <span>{d.title}</span>
+  </div>
+
+  <div class="wrap layout" data-pagefind-body>
+    <article class="main">
+      <div class="tags">
+        {d.season.map((s) => <a class="chip is-small" href={`/season/${s}/`} style={`background:${SEASONS[s].bg};color:${SEASONS[s].fg}`}>{SEASONS[s].label}</a>)}
+        {d.body.map((b) => <a class="chip is-small" href={`/purpose/${b}/`}>{BODY[b]}</a>)}
+        {d.keepsake && <a class="chip is-small" href="/omoide/">形に残る</a>}
+        <a class="chip is-small" href={`/budget/${BUDGET_SLUG[d.budget]}/`}>{BUDGET[d.budget]}</a>
+      </div>
+      <h1 data-pagefind-meta="title">{d.title}</h1>
+      <p class="lead">{d.description}</p>
+
+      <section class="summary" aria-labelledby="sum-h">
+        <h2 id="sum-h">まずはここだけ</h2>
+        <dl class="facts">
+          <div><dt>時間</dt><dd>{d.minutes}分</dd></div>
+          <div><dt>人数</dt><dd>{d.people}</dd></div>
+          <div><dt>予算</dt><dd>{BUDGET[d.budget]}</dd></div>
+          <div><dt>座ったまま</dt><dd>{d.seated ? 'できる' : '立つ場面あり'}</dd></div>
+        </dl>
+        {d.summary.length > 0 && <ul>{d.summary.map((s) => <li>{s}</li>)}</ul>}
+      </section>
+
+      {d.image && <figure class="paper photo"><img src={d.image} alt={`${d.title}の様子`} width="1200" height="800" /></figure>}
+
+      <section aria-labelledby="steps-h">
+        <h2 id="steps-h" class="h2">すすめかた</h2>
+        <ol class="steps">{d.steps.map((s, i) => <li><span class="num" aria-hidden="true">{i + 1}</span><p>{s}</p></li>)}</ol>
+      </section>
+
+      {d.script && (
+        <section class="script" aria-labelledby="script-h">
+          <h2 id="script-h" class="h2">そのまま読める進行台本</h2>
+          <dl>
+            <dt>はじめ</dt><dd>{d.script.start}</dd>
+            {d.script.middle && <><dt>とちゅう</dt><dd>{d.script.middle}</dd></>}
+            <dt>おわり</dt><dd>{d.script.end}</dd>
+          </dl>
+        </section>
+      )}
+
+      <div class="prose"><Content /></div>
+
+      {d.safety && (
+        <section class="safety" aria-labelledby="safety-h">
+          <h2 id="safety-h" class="h2">安全のための注意</h2>
+          <p>{d.safety}</p>
+        </section>
+      )}
+
+      <p class="checked">確認者：{d.reviewer ?? '未確認'}　最終確認日：{fmt(d.checkedAt) || '未確認'}</p>
+    </article>
+
+    <aside class="side" aria-label="このレクの基本情報">
+      <div class="box">
+        <h2 class="h3">スタッフの負担</h2>
+        <p class="loads">
+          <Level label="体力" value={d.load.physical} dots />
+          <Level label="司会" value={d.load.facilitation} dots />
+          <Level label="準備の手間" value={d.load.prep} dots />
+        </p>
+      </div>
+      {d.materials.length > 0 && (
+        <div class="box">
+          <h2 class="h3">準備するもの</h2>
+          <ul>{d.materials.map((m) => <li>{m}</li>)}</ul>
+        </div>
+      )}
+      {d.downloads.map((f) => <a class="btn is-tape" href={f.url} download>{f.label}（{f.format}）</a>)}
+      <FavButton id={reku.id} title={d.title} />
+      <button type="button" class="btn is-outline no-print" onclick="window.print()">このページを印刷</button>
+    </aside>
+
+    <!-- サイト内検索の絞り込み用（画面には出さない） -->
+    <div hidden>
+      {d.season.map((s) => <span data-pagefind-filter="季節">{SEASONS[s].label}</span>)}
+      {d.body.map((b) => <span data-pagefind-filter="きたえる">{BODY[b]}</span>)}
+      <span data-pagefind-filter="体力">{LEVEL_WORD[d.load.physical]}</span>
+      <span data-pagefind-filter="司会">{LEVEL_WORD[d.load.facilitation]}</span>
+      <span data-pagefind-filter="準備">{LEVEL_WORD[d.load.prep]}</span>
+      <span data-pagefind-filter="予算">{BUDGET[d.budget]}</span>
+      {d.keepsake && <span data-pagefind-filter="形に残る">あり</span>}
+      {sits.map((k) => <span data-pagefind-filter="状況">{SITUATIONS[k].short}</span>)}
+      <span data-pagefind-filter="種類">レク</span>
+      <span data-pagefind-meta="loads">{`体力 ${LEVEL_WORD[d.load.physical]}／司会 ${LEVEL_WORD[d.load.facilitation]}／準備 ${LEVEL_WORD[d.load.prep]}`}</span>
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <section class="wrap section no-print" aria-labelledby="rel-h">
+      <div class="section-head"><h2 id="rel-h">似ているレク</h2></div>
+      <div class="grid-cards">{related.map((r, i) => <RekuCard reku={r} index={i} />)}</div>
+    </section>
+  )}
+</Base>
+
+
+
+<style>
+  .crumbs { font-size: 14px; color: var(--ink-3); padding-top: 16px; }
+  .crumbs a { color: var(--ink-3); }
+  .layout { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; padding-block: 24px 48px; }
+  .main { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+  .side { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  h1 { font-size: clamp(28px, 4vw, 38px); }
+  .h2 { font-size: 24px; margin-bottom: 14px; }
+  .h3 { font-size: 19px; margin-bottom: 10px; }
+  .summary { background: var(--card); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px 22px; }
+  .summary h2 { font-size: 20px; margin-bottom: 12px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 0 0 12px; }
+  .facts div { background: var(--paper); padding: 10px 14px; }
+  .facts dt { font-size: 13px; color: var(--ink-3); }
+  .facts dd { margin: 0; font-size: 18px; font-weight: 700; }
+  .summary ul { margin: 0; padding-left: 1.2em; }
+  .photo { margin: 0; padding: 16px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .steps li { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 1px solid var(--line-2); padding: 16px 18px; }
+  .num { flex: 0 0 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--card); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .script { background: var(--ink); color: var(--card); padding: 24px; }
+  .script h2 { color: var(--card); }
+  .script dt { color: var(--tape); font-weight: 700; font-size: 14px; }
+  .script dd { margin: 0 0 12px; color: #EFE6D4; }
+  .safety { border: 1.5px dashed #B5A68C; padding: 20px 22px; }
+  .checked { font-size: 13px; color: var(--ink-3); }
+  .box { background: var(--card); border: 1px solid var(--line-2); padding: 20px 22px; }
+  .box ul { margin: 0; padding-left: 1.2em; }
+  .loads { display: flex; flex-direction: column; gap: 6px; }
+  .prose :global(h2) { font-size: 22px; margin: 8px 0 10px; }
+  .prose :global(p) { margin-bottom: 1em; }
+</style>

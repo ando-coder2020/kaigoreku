@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers で公開するための設定（GitHub連携で自動ビルドするときに使う）
+  "name": "snowy-bush-41bc",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

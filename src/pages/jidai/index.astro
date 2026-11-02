@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedJidai, ageLabel } from '../../lib/taxonomy';
+const list = await getPublishedJidai();
+---
+<Base title="年代別の時代背景" description="生まれ年ごとの流行・暮らし・好まれた遊び。">
+  <section class="wrap section">
+    <h1 class="h1">あの方が、二十歳だったころ。</h1>
+    <p class="lead">生まれ年ごとに、流行・暮らし・好まれた遊びをまとめています。「いま◯代」の表示は毎年自動で更新されます。</p>
+    <div class="timeline">
+      {list.map((j) => (
+        <a href={`/jidai/${j.id}/`}>
+          <span class="y">{j.data.birthFrom}〜{j.data.birthTo}年生まれ</span>
+          <span class="a">{ageLabel(j.data.birthFrom, j.data.birthTo)}</span>
+          <span>{j.data.summary}</span>
+        </a>
+      ))}
+    </div>
+    {list.length === 0 && <p class="empty">年表は準備中です。出典の確認が済んだ年代から順に掲載します。</p>}
+    <p class="more"><a href="/rikai/">高齢者を理解する（体・心の変化）</a></p>
+  </section>
+</Base>
+<style>
+  .h1 { font-size: 32px; margin-bottom: 8px; }
+  .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border-top: 3px solid var(--ink); margin-top: 28px; }
+  .timeline a { display: flex; flex-direction: column; gap: 4px; padding: 20px; text-decoration: none; color: var(--ink); border-right: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+  .y { font-size: 13px; color: var(--ink-3); }
+  .a { font-family: var(--font-display); font-weight: 700; font-size: 22px; }
+  .more { margin-top: 24px; }
+  .empty { padding: 24px 0; }
+</style>
