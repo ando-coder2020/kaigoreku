@@ -4,9 +4,9 @@
 
 backend:
   name: github
-  repo: '[GitHubの組織名]/[リポジトリ名]'
+  repo: ando-coder2020/kaigoreku
   branch: main
-  base_url: '[認証用WorkerのURL]'
+  base_url: https://sveltia-cms-auth.app-dev24.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads
