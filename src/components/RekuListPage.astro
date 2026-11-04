@@ -17,10 +17,12 @@ const { page, heading, lead } = Astro.props;
       ? <div class="grid-cards">{page.data.map((r, i) => <RekuCard reku={r} index={i} />)}</div>
       : <p class="empty">まだ記事がありません。<a href="/reku/">ほかの条件で探す</a></p>}
     <Pagination prev={page.url.prev} next={page.url.next} current={page.currentPage} last={page.lastPage} />
+    <div class="after"><slot name="after" /></div>
   </section>
 </Base>
 <style>
   .h1 { font-size: 32px; margin-bottom: 8px; }
   .count { color: var(--ink-3); font-size: 14px; margin: 8px 0 24px; }
   .empty { padding: 32px 0; }
+  .after { margin-top: 32px; }
 </style>

@@ -4,12 +4,19 @@ import { SEASONS, getPublishedReku, type SeasonKey } from '../../../lib/taxonomy
 import { PAGE_SIZE } from '../../../lib/paging';
 export async function getStaticPaths({ paginate }) {
   const list = await getPublishedReku();
+  // その季節に指定された記事だけを表示（通年の記事は /season/all/ にまとめる）
   return (Object.keys(SEASONS) as SeasonKey[]).flatMap((s) =>
-    paginate(list.filter((r) => r.data.season.includes(s) || (s !== 'all' && r.data.season.includes('all'))), {
-      params: { season: s }, pageSize: PAGE_SIZE, props: { label: SEASONS[s].label },
+    paginate(list.filter((r) => r.data.season.includes(s)), {
+      params: { season: s }, pageSize: PAGE_SIZE, props: { label: SEASONS[s].label, isAll: s === 'all' },
     })
   );
 }
-const { page, label } = Astro.props;
+const { page, label, isAll } = Astro.props;
 ---
-<RekuListPage page={page} heading={`${label}のレク`} lead={label === '通年' ? '季節を問わずできるレク。' : `${label}の行事や季節感を取り入れたレク（通年のものも含みます）。`} />
+<RekuListPage
+  page={page}
+  heading={`${label}のレク`}
+  lead={isAll ? '季節を問わず、いつでもできるレク。' : `${label}の行事や季節感を取り入れたレク。`}
+>
+  {!isAll && <p slot="after"><a href="/season/all/">季節を問わずできる「通年のレク」も見る</a></p>}
+</RekuListPage>
