@@ -4,7 +4,7 @@ description: 色紙をちぎって紙皿に貼り、秋のリースをつくる�
 season: [autumn]
 months: [10, 11]
 gyoji: []
-body: [hand]
+parts: [hand]
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '0'
 minutes: 40

@@ -2,7 +2,7 @@
 title: ことわざ穴埋めカルタ
 description: ことわざの前半を読み上げ、後半の札を探してもらう。準備は札だけで、すぐ始められる。
 season: [all]
-body: [head]
+parts: [head]
 load: { physical: 1, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 15

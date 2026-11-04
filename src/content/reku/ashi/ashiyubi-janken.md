@@ -2,7 +2,7 @@
 title: 足でじゃんけん体操
 description: 座ったまま、足の開き閉じでグー・チョキ・パーを出す。道具なしで10分からできる。
 season: [all]
-body: [foot]
+parts: [foot]
 load: { physical: 1, facilitation: 1, prep: 1 }
 budget: '0'
 minutes: 10

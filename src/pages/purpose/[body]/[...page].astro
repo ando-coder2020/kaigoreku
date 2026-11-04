@@ -5,7 +5,7 @@ import { PAGE_SIZE } from '../../../lib/paging';
 export async function getStaticPaths({ paginate }) {
   const list = await getPublishedReku();
   return (Object.keys(BODY) as BodyKey[]).flatMap((b) =>
-    paginate(list.filter((r) => r.data.body.includes(b)), { params: { body: b }, pageSize: PAGE_SIZE, props: { label: BODY[b] } })
+    paginate(list.filter((r) => r.data.parts.includes(b)), { params: { body: b }, pageSize: PAGE_SIZE, props: { label: BODY[b] } })
   );
 }
 const { page, label } = Astro.props;

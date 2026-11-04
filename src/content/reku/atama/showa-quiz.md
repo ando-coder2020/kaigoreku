@@ -2,7 +2,7 @@
 title: 昭和の流行語あてクイズ
 description: 当時の流行語の前半を読み上げ、続きを答えてもらう。思い出話が自然に広がる。
 season: [all]
-body: [head]
+parts: [head]
 load: { physical: 1, facilitation: 3, prep: 1 }
 budget: '0'
 minutes: 20

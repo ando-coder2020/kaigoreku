@@ -4,7 +4,7 @@ description: 座ったまま、うちわであおいで風船を隣の人へ送�
 season: [summer]
 months: [7, 8]
 gyoji: []
-body: [whole]
+parts: [whole]
 load: { physical: 2, facilitation: 2, prep: 1 }
 budget: '1000'
 minutes: 15

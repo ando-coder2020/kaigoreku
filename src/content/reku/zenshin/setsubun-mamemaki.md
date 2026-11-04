@@ -4,7 +4,7 @@ description: 丸めた新聞紙を「豆」にして、鬼の的をめがけて�
 season: [winter]
 months: [2]
 gyoji: [節分]
-body: [whole, hand]
+parts: [whole, hand]
 load: { physical: 2, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 20
@@ -12,7 +12,7 @@ people: 5〜15人
 seated: true
 keepsake: false
 summary:
-  - 丸めた新聞紙を、鬼の絵の的に向かって投げる
+  - 「鬼は外！」と言いながら、丸めた新聞紙を鬼の絵の的に向かって投げる
   - 体を動かしたい方、にぎやかな雰囲気が好きな方に
   - 最後に「福は内」で、みんなで拍手して締める
 materials: [新聞紙, 鬼の絵を描いた段ボール（的）, 回収用のかご]

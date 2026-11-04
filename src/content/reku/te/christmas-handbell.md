@@ -4,7 +4,7 @@ description: 一人ひとつハンドベルを持ち、合図で鳴らして1曲
 season: [winter]
 months: [12]
 gyoji: [クリスマス]
-body: [hand, head]
+parts: [hand, head]
 load: { physical: 1, facilitation: 3, prep: 3 }
 budget: '10000'
 minutes: 45

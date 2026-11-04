@@ -4,7 +4,7 @@ description: 短冊に願いごとを書いて笹に飾り、ひとことずつ�
 season: [summer]
 months: [7]
 gyoji: [七夕]
-body: [hand, head]
+parts: [hand, head]
 load: { physical: 1, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 30

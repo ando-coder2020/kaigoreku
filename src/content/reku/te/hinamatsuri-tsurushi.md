@@ -4,7 +4,7 @@ description: 折り紙で花や小物を折り、ひもに通してつるし飾�
 season: [spring]
 months: [2, 3]
 gyoji: [ひな祭り]
-body: [hand]
+parts: [hand]
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '1000'
 minutes: 40

@@ -4,7 +4,7 @@ description: 玉入れ・パン食い風おやつ当て・応援合戦を組み�
 season: [autumn]
 months: [9, 10]
 gyoji: [運動会]
-body: [whole, hand]
+parts: [whole, hand]
 load: { physical: 3, facilitation: 3, prep: 3 }
 budget: '5000'
 minutes: 60

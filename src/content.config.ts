@@ -37,7 +37,7 @@ const reku = defineCollection({
       season: z.array(z.enum(['spring', 'summer', 'autumn', 'winter', 'all'])).min(1),
       months: z.array(z.number().int().min(1).max(12)).default([]),
       gyoji: z.array(z.string()).default([]),
-      body: z.array(z.enum(['head', 'hand', 'foot', 'whole'])).min(1),
+      parts: z.array(z.enum(['head', 'hand', 'foot', 'whole'])).min(1).describe('きたえる部位'),
       load: z.object({ physical: level, facilitation: level, prep: level }),
       budget: z.enum(['0', '1000', '5000', '10000', 'over']),
       minutes: z.number().int().positive(),

@@ -15,7 +15,7 @@ const d = reku.data;
 const { Content } = await render(reku);
 const sits = situationsOf(reku);
 const related = list
-  .filter((r) => r.id !== reku.id && r.data.body.some((b) => d.body.includes(b)))
+  .filter((r) => r.id !== reku.id && r.data.parts.some((b) => d.parts.includes(b)))
   .slice(0, 3);
 const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日` : '';
 ---
@@ -28,7 +28,7 @@ const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() +
     <article class="main">
       <div class="tags">
         {d.season.map((s) => <a class="chip is-small" href={`/season/${s}/`} style={`background:${SEASONS[s].bg};color:${SEASONS[s].fg}`}>{SEASONS[s].label}</a>)}
-        {d.body.map((b) => <a class="chip is-small" href={`/purpose/${b}/`}>{BODY[b]}</a>)}
+        {d.parts.map((b) => <a class="chip is-small" href={`/purpose/${b}/`}>{BODY[b]}</a>)}
         {d.keepsake && <a class="chip is-small" href="/omoide/">形に残る</a>}
         <a class="chip is-small" href={`/budget/${BUDGET_SLUG[d.budget]}/`}>{BUDGET[d.budget]}</a>
       </div>
@@ -99,7 +99,7 @@ const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() +
     <!-- サイト内検索の絞り込み用（画面には出さない） -->
     <div hidden>
       {d.season.map((s) => <span data-pagefind-filter="季節">{SEASONS[s].label}</span>)}
-      {d.body.map((b) => <span data-pagefind-filter="きたえる">{BODY[b]}</span>)}
+      {d.parts.map((b) => <span data-pagefind-filter="きたえる">{BODY[b]}</span>)}
       <span data-pagefind-filter="体力">{LEVEL_WORD[d.load.physical]}</span>
       <span data-pagefind-filter="司会">{LEVEL_WORD[d.load.facilitation]}</span>
       <span data-pagefind-filter="準備">{LEVEL_WORD[d.load.prep]}</span>

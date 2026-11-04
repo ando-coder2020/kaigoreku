@@ -4,7 +4,7 @@ description: 手のひらに絵の具をつけて画用紙に押し、木や花�
 season: [autumn]
 months: [9]
 gyoji: [敬老の日]
-body: [hand]
+parts: [hand]
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '1000'
 minutes: 30

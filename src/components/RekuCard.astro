@@ -6,7 +6,7 @@ const { reku, index = 0 } = Astro.props;
 const d = reku.data;
 const tilt = [-1, 0.8, -0.6, 0.5][index % 4];
 const tint = ['#F3D6C4', '#D6E8DB', '#D3E0EE', '#F7D9DB'][index % 4];
-const tags = [...d.body.map((b) => BODY[b]), d.keepsake ? '形に残る' : null, BUDGET[d.budget]].filter(Boolean);
+const tags = [...d.parts.map((b) => BODY[b]), d.keepsake ? '形に残る' : null, BUDGET[d.budget]].filter(Boolean);
 ---
 <a href={`/reku/${reku.id}/`} class="paper card" style={`transform: rotate(${tilt}deg)`}>
   {d.image

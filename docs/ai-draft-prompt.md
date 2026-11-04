@@ -31,7 +31,7 @@
 - season: spring / summer / autumn / winter / all から選ぶ（複数可）。季節を問わないものは all。
 - months: おすすめの月（1〜12）。季節行事なら入れる。なければ []。
 - gyoji: 行事名（例：節分、敬老の日）。なければ []。
-- body: head（頭）/ hand（手先）/ foot（足）/ whole（全身）から選ぶ（複数可。主なものを先に）。
+- parts: head（頭）/ hand（手先）/ foot（足）/ whole（全身）から選ぶ（複数可。主なものを先に）。
 - load: スタッフの負担を 1（軽い）・2（ふつう）・3（しっかり）で付ける。
   - physical（体力）：スタッフが動き回る・支える量
   - facilitation（司会）：盛り上げ・説明・進行の難しさ
@@ -44,7 +44,7 @@
 
 ### 出力形式
 最初の行にファイル名と保存先フォルダを書き、そのあとに Markdown 全文を1つのコードブロックで出力する。
-保存先フォルダは body の最初の値で決める：head → atama、hand → te、foot → ashi、whole → zenshin。
+保存先フォルダは parts の最初の値で決める：head → atama、hand → te、foot → ashi、whole → zenshin。
 
 ファイル名：<英小文字のファイル名>.md
 保存先：src/content/reku/<フォルダ>/
@@ -56,7 +56,7 @@ description: （一覧に出る1行説明。80文字以内）
 season: []
 months: []
 gyoji: []
-body: []
+parts: []
 load: { physical: 1, facilitation: 1, prep: 1 }
 budget: '0'
 minutes: 0
