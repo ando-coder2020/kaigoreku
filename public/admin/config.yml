@@ -11,7 +11,7 @@ public_folder: /uploads
 locale: ja
 
 common_reku_fields: &reku_fields
-  - &urlname { name: urlname, label: URL用の英字名, widget: string, pattern: ['^[a-z0-9-]+\$', '半角英小文字・数字・ハイフンのみ（例：ochiba-wreath）'], hint: 一度公開したら変えない }
+  - &urlname { name: urlname, label: URL用の英字名, widget: string, pattern: ['^[a-z0-9-]+$', '半角英小文字・数字・ハイフンのみ（例：ochiba-wreath）'], hint: 一度公開したら変えない }
   - { name: title, label: レクの名前, widget: string, hint: 40文字以内 }
   - { name: description, label: 1行説明, widget: string, hint: 一覧に出ます。80文字以内 }
   - name: season
@@ -154,4 +154,6 @@ collections:
       - *editorial_writer
       - *editorial_reviewer
       - *editorial_checked
-      - *editorial_
+      - *editorial_published
+      - *editorial_draft
+      - { name: body_text, label: こたえ, widget: markdown }
