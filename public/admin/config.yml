@@ -1,6 +1,4 @@
 # 介護レク図鑑 入稿画面の設定
-# 公開の流れ：入稿者は「下書き」のまま保存 → 承認者が確認者・確認日を入れて「下書き」を外す
-# 承認者・確認日がないまま下書きを外すと、サイトの組み立て（ビルド）がエラーで止まる
 
 backend:
   name: github
@@ -20,25 +18,25 @@ common_reku_fields: &reku_fields
     label: 季節
     widget: select
     multiple: true
-    options: [{ value: spring, label: 春 }, { value: summer, label: 夏 }, { value: autumn, label: 秋 }, { value: winter, label: 冬 }, { value: all, label: 通年 }]
-  - { name: months, label: おすすめの月, widget: select, multiple: true, required: false, options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
+    options: [ { value: spring, label: 春 }, { value: summer, label: 夏 }, { value: autumn, label: 秋 }, { value: winter, label: 冬 }, { value: all, label: 通年 } ]
+  - { name: months, label: おすすめの月, widget: select, multiple: true, required: false, options: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] }
   - { name: gyoji, label: 行事, widget: list, required: false, hint: 例：敬老の日 }
-  - name: body
+  - name: body_parts
     label: きたえる
     widget: select
     multiple: true
-    options: [{ value: head, label: 頭 }, { value: hand, label: 手先 }, { value: foot, label: 足 }, { value: whole, label: 全身 }]
+    options: [ { value: head, label: 頭 }, { value: hand, label: 手先 }, { value: foot, label: 足 }, { value: whole, label: 全身 } ]
   - name: load
     label: スタッフの負担
     widget: object
     fields:
-      - &level { name: physical, label: 体力, widget: select, options: [{ value: 1, label: 軽い }, { value: 2, label: ふつう }, { value: 3, label: しっかり }] }
+      - &level { name: physical, label: 体力, widget: select, options: [ { value: 1, label: 軽い }, { value: 2, label: ふつう }, { value: 3, label: しっかり } ] }
       - { <<: *level, name: facilitation, label: 司会 }
       - { <<: *level, name: prep, label: 準備の手間 }
   - name: budget
     label: 予算
     widget: select
-    options: [{ value: '0', label: 0円 }, { value: '1000', label: 〜1千円 }, { value: '5000', label: 〜5千円 }, { value: '10000', label: 〜1万円 }, { value: over, label: 1万円〜 }]
+    options: [ { value: '0', label: 0円 }, { value: '1000', label: 〜1千円 }, { value: '5000', label: 〜5千円 }, { value: '10000', label: 〜1万円 }, { value: over, label: 1万円〜 } ]
   - { name: minutes, label: 所要時間（分）, widget: number, value_type: int }
   - { name: people, label: 人数, widget: string, hint: 例：5〜10人 }
   - { name: seated, label: 座ったままできる, widget: boolean, default: false }
@@ -101,7 +99,7 @@ collections:
       - name: topics
         label: 項目
         widget: list
-        fields: [{ name: label, label: 見出し, widget: string }, { name: text, label: 内容, widget: text }]
+        fields: [ { name: label, label: 見出し, widget: string }, { name: text, label: 内容, widget: text } ]
       - { name: sources, label: 出典URL（公開に必須）, widget: list }
       - *editorial_aiDraft
       - *editorial_writer
@@ -125,7 +123,7 @@ collections:
       - name: category
         label: 分類
         widget: select
-        options: [{ value: body, label: 体の変化 }, { value: mind, label: 心の変化 }, { value: communication, label: 伝え方・聞き方 }]
+        options: [ { value: body, label: 体の変化 }, { value: mind, label: 心の変化 }, { value: communication, label: 伝え方・聞き方 } ]
       - { name: expertChecked, label: 専門職が確認済み（公開に必須）, widget: boolean, default: false }
       - { name: sources, label: 出典URL（公開に必須）, widget: list }
       - *editorial_aiDraft
@@ -149,7 +147,7 @@ collections:
       - name: category
         label: 分類
         widget: select
-        options: [{ value: mc, label: 司会・進行 }, { value: budget, label: 予算 }, { value: participation, label: 参加・声かけ }, { value: prep, label: 準備 }, { value: other, label: その他 }]
+        options: [ { value: mc, label: 司会・進行 }, { value: budget, label: 予算 }, { value: participation, label: 参加・声かけ }, { value: prep, label: 準備 }, { value: other, label: その他 } ]
       - { name: question, label: 相談本文, widget: text, hint: 個人名・施設名・利用者さんが特定できる内容は必ず削除 }
       - { name: related, label: 関連レク（ファイル名）, widget: list, required: false }
       - *editorial_aiDraft
