@@ -11,7 +11,7 @@ public_folder: /uploads
 locale: ja
 
 common_reku_fields: &reku_fields
-  - &urlname { name: urlname, label: URL用の英字名, widget: string, pattern: ['^[a-z0-9-]+$', '半角英小文字・数字・ハイフンのみ（例：ochiba-wreath）'], hint: 一度公開したら変えない }
+  - &urlname { name: urlname, label: URL用の英字名, widget: string, pattern: ['^[a-z0-9-]+\$', '半角英小文字・数字・ハイフンのみ（例：ochiba-wreath）'], hint: 一度公開したら変えない }
   - { name: title, label: レクの名前, widget: string, hint: 40文字以内 }
   - { name: description, label: 1行説明, widget: string, hint: 一覧に出ます。80文字以内 }
   - name: season
@@ -68,7 +68,7 @@ common_reku_fields: &reku_fields
   - &editorial_checked { name: checkedAt, label: 確認日, widget: datetime, time_format: false, format: YYYY-MM-DD, required: false }
   - &editorial_published { name: publishedAt, label: 公開日, widget: datetime, time_format: false, format: YYYY-MM-DD }
   - &editorial_draft { name: draft, label: 下書き（チェック中は公開されない）, widget: boolean, default: true }
-  - { name: body, label: 補足・アレンジ, widget: markdown, required: false }
+  - { name: body_arrange, label: 補足・アレンジ, widget: markdown, required: false }
 
 common_reku: &reku
   create: true
@@ -107,7 +107,7 @@ collections:
       - *editorial_checked
       - *editorial_published
       - *editorial_draft
-      - { name: body, label: 本文, widget: markdown, required: false }
+      - { name: body_text, label: 本文, widget: markdown, required: false }
 
   - name: rikai
     label: 高齢者を理解する
@@ -132,7 +132,7 @@ collections:
       - *editorial_checked
       - *editorial_published
       - *editorial_draft
-      - { name: body, label: 本文, widget: markdown }
+      - { name: body_text, label: 本文, widget: markdown }
 
   - name: nayami
     label: 悩み広場
@@ -154,6 +154,4 @@ collections:
       - *editorial_writer
       - *editorial_reviewer
       - *editorial_checked
-      - *editorial_published
-      - *editorial_draft
-      - { name: body, label: こたえ, widget: markdown }
+      - *editorial_
