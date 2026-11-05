@@ -56,6 +56,7 @@ common_reku_fields: &reku_fields
       - { name: end, label: おわり, widget: text }
   - { name: safety, label: 安全のための注意, widget: text, required: false }
   - { name: image, label: 写真, widget: image, required: false, hint: 利用者さんの顔が写っていない写真のみ }
+  - { name: icon, label: 写真がないときの絵柄, widget: select, required: false, options: [leaf, kaki, sakura, flower, paper, scissors, chat, asagao, lantern, fish, ball, sun, star, note, moon, pumpkin, face, brush, dice, snow, snowman, heart, tree, balloon, foot, plane, pencil, cards, hand, bell, book, person], hint: 例：leaf=紅葉、sakura=桜、snow=雪、ball=ボール }
   - name: downloads
     label: ダウンロード素材
     widget: list
@@ -70,6 +71,7 @@ common_reku_fields: &reku_fields
   - &editorial_checked { name: checkedAt, label: 確認日, widget: datetime, time_format: false, format: YYYY-MM-DD, required: false }
   - &editorial_published { name: publishedAt, label: 公開日, widget: datetime, time_format: false, format: YYYY-MM-DD }
   - &editorial_draft { name: draft, label: 下書き（チェック中は公開されない）, widget: boolean, default: true }
+  - &editorial_sample { name: sample, label: サンプル記事（公開前に差し替える）, widget: boolean, default: false, required: false }
   - { name: body, label: 補足・アレンジ, widget: markdown, required: false }
 
 common_reku: &reku
@@ -123,6 +125,7 @@ collections:
       - *editorial_checked
       - *editorial_published
       - *editorial_draft
+      - *editorial_sample
       - { name: body, label: 本文, widget: markdown, required: false }
 
   - name: rikai
@@ -155,6 +158,7 @@ collections:
       - *editorial_checked
       - *editorial_published
       - *editorial_draft
+      - *editorial_sample
       - { name: body, label: 本文, widget: markdown }
 
   - name: nayami
@@ -186,4 +190,5 @@ collections:
       - *editorial_checked
       - *editorial_published
       - *editorial_draft
+      - *editorial_sample
       - { name: body, label: こたえ, widget: markdown }
