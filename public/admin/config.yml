@@ -78,6 +78,13 @@ common_reku: &reku
   format: frontmatter
   identifier_field: title
   slug: '{{fields.urlname}}'
+  summary: "{{draft | ternary('【下書き】', '')}}{{title}}"
+  sortable_fields: [title, publishedAt, draft]
+  view_filters:
+    - { label: 下書きだけ, field: draft, pattern: true }
+    - { label: 公開中だけ, field: draft, pattern: false }
+  view_groups:
+    - { label: 下書き／公開, field: draft }
   fields: *reku_fields
 
 collections:
@@ -93,6 +100,13 @@ collections:
     extension: md
     format: frontmatter
     slug: 'born-{{fields.birthFrom}}-{{fields.birthTo}}'
+    summary: "{{draft | ternary('【下書き】', '')}}{{title}}"
+    sortable_fields: [title, publishedAt, draft]
+    view_filters:
+      - { label: 下書きだけ, field: draft, pattern: true }
+      - { label: 公開中だけ, field: draft, pattern: false }
+    view_groups:
+      - { label: 下書き／公開, field: draft }
     fields:
       - { name: title, label: 見出し, widget: string }
       - { name: birthFrom, label: 生まれ年（から）, widget: number, value_type: int }
@@ -118,6 +132,13 @@ collections:
     extension: md
     format: frontmatter
     slug: '{{fields.urlname}}'
+    summary: "{{draft | ternary('【下書き】', '')}}{{title}}"
+    sortable_fields: [title, publishedAt, draft]
+    view_filters:
+      - { label: 下書きだけ, field: draft, pattern: true }
+      - { label: 公開中だけ, field: draft, pattern: false }
+    view_groups:
+      - { label: 下書き／公開, field: draft }
     fields:
       - *urlname
       - { name: title, label: 見出し, widget: string }
@@ -143,6 +164,13 @@ collections:
     extension: md
     format: frontmatter
     slug: '{{fields.urlname}}'
+    summary: "{{draft | ternary('【下書き】', '')}}{{title}}"
+    sortable_fields: [title, publishedAt, draft]
+    view_filters:
+      - { label: 下書きだけ, field: draft, pattern: true }
+      - { label: 公開中だけ, field: draft, pattern: false }
+    view_groups:
+      - { label: 下書き／公開, field: draft }
     fields:
       - *urlname
       - { name: title, label: 相談の見出し, widget: string }
