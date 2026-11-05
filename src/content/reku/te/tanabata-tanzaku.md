@@ -5,6 +5,7 @@ season: [summer]
 months: [7]
 gyoji: [七夕]
 parts: [hand, head]
+icon: star
 load: { physical: 1, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 30

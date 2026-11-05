@@ -5,6 +5,7 @@ season: [spring]
 months: [2, 3]
 gyoji: [ひな祭り]
 parts: [hand]
+icon: paper
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '1000'
 minutes: 40

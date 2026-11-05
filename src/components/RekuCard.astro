@@ -1,17 +1,17 @@
 ---
 import Level from './Level.astro';
+import RekuThumb from './RekuThumb.astro';
 import { BODY, BUDGET, type Reku } from '../lib/taxonomy';
 interface Props { reku: Reku; index?: number; }
 const { reku, index = 0 } = Astro.props;
 const d = reku.data;
 const tilt = [-1, 0.8, -0.6, 0.5][index % 4];
-const tint = ['#F3D6C4', '#D6E8DB', '#D3E0EE', '#F7D9DB'][index % 4];
 const tags = [...d.parts.map((b) => BODY[b]), d.keepsake ? '形に残る' : null, BUDGET[d.budget]].filter(Boolean);
 ---
 <a href={`/reku/${reku.id}/`} class="paper card" style={`transform: rotate(${tilt}deg)`}>
   {d.image
     ? <img src={d.image} alt="" loading="lazy" width="400" height="300" class="thumb" />
-    : <div class="thumb" style={`background:${tint}`} aria-hidden="true"></div>}
+    : <RekuThumb icon={d.icon} season={d.season[0]} label={d.title} seed={reku.id} />}
   <h3 class="title">{d.title}</h3>
   <p class="tags">{tags.join('／')}</p>
   <p class="loads">

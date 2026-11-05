@@ -1,0 +1,26 @@
+---
+// 記事のサンプル画像（写真がない記事に、季節の色と切り絵アイコンで自動作成）
+import { iconSvg, ICON_COLOR, SEASON_TINT } from '../lib/icons';
+interface Props { icon?: string; season?: string; label?: string; seed?: string; }
+const { icon = 'star', season = 'all', label = '', seed = '' } = Astro.props;
+const bg = SEASON_TINT[season] ?? SEASON_TINT.all;
+const c = ICON_COLOR[icon] ?? '#D2703A';
+// 記事ごとに少しずつ傾きを変える
+const n = [...seed].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+const tilt = ((n % 9) - 4) * 1.2;
+const dots = Array.from({ length: 14 }, (_, i) => {
+  const x = (n * (i + 3) * 37) % 400;
+  const y = (n * (i + 7) * 53) % 300;
+  return `<circle cx="${x}" cy="${y}" r="${3 + (i % 3) * 2}" fill="#FFFDF8" opacity=".55"/>`;
+}).join('');
+const art = `<rect width="400" height="300" fill="${bg}"/>${dots}
+<g transform="rotate(${tilt} 200 150)">
+  <rect x="120" y="50" width="160" height="160" rx="14" fill="#FFFDF8"/>
+  <rect x="172" y="40" width="56" height="18" fill="#E6C15A" opacity=".9" transform="rotate(-4 200 49)"/>
+  <g transform="translate(140 70) scale(1.2)">${iconSvg(icon, c)}</g>
+</g>`;
+---
+<svg viewBox="0 0 400 300" role="img" aria-label={label ? `${label}のイメージ` : 'レクのイメージ'} class="thumb" set:html={art} />
+<style>
+  .thumb { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; }
+</style>

@@ -5,6 +5,7 @@ season: [autumn]
 months: [9]
 gyoji: [敬老の日]
 parts: [hand]
+icon: hand
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '1000'
 minutes: 30

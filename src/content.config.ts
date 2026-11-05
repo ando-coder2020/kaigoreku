@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { ICONS } from './lib/icons';
 
 // ファイル名だけをIDにする（フォルダを移動してもURLが変わらない）
 const byFileName = ({ entry }: { entry: string }) =>
@@ -15,11 +16,13 @@ const editorial = {
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
   draft: z.boolean().default(true),
+  // サンプル記事（公開前に差し替える）。確認の記録がなくても表示し、画面に「サンプル」と出す
+  sample: z.boolean().default(false),
 };
 
 // 公開（draft: false）にするときの必須チェック
 const requireReview = (needSources: boolean) => (d: any, ctx: z.RefinementCtx) => {
-  if (d.draft) return;
+  if (d.draft || d.sample) return;
   if (!d.reviewer) ctx.addIssue({ code: 'custom', path: ['reviewer'], message: '公開するには承認者（reviewer）が必要です' });
   if (!d.checkedAt) ctx.addIssue({ code: 'custom', path: ['checkedAt'], message: '公開するには確認日（checkedAt）が必要です' });
   if (needSources && (!d.sources || d.sources.length === 0))
@@ -53,6 +56,7 @@ const reku = defineCollection({
         .describe('そのまま読める進行台本'),
       safety: z.string().optional(),
       image: z.string().optional(),
+      icon: z.enum(ICONS).optional().describe('写真がないときのサンプル画像の絵柄'),
       downloads: z
         .array(z.object({ label: z.string(), url: z.string(), format: z.string().default('PDF・A4') }))
         .default([]),
@@ -90,7 +94,7 @@ const rikai = defineCollection({
     })
     .superRefine(requireReview(true))
     .superRefine((d, ctx) => {
-      if (!d.draft && !d.expertChecked)
+      if (!d.draft && !d.sample && !d.expertChecked)
         ctx.addIssue({ code: 'custom', path: ['expertChecked'], message: '公開するには専門職の確認が必要です' });
     }),
 });

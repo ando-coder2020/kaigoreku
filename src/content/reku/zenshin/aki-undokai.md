@@ -5,6 +5,7 @@ season: [autumn]
 months: [9, 10]
 gyoji: [運動会]
 parts: [whole, hand]
+icon: ball
 load: { physical: 3, facilitation: 3, prep: 3 }
 budget: '5000'
 minutes: 60

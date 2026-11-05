@@ -5,6 +5,7 @@ season: [autumn]
 months: [10, 11]
 gyoji: []
 parts: [hand]
+icon: leaf
 load: { physical: 1, facilitation: 1, prep: 2 }
 budget: '0'
 minutes: 40

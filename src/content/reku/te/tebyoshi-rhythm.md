@@ -3,6 +3,7 @@ title: 手拍子リズム遊び
 description: スタッフが叩いたリズムを、みんなでまねして手拍子する。だんだん長くして記憶力も使う。
 season: [all]
 parts: [hand, head]
+icon: note
 load: { physical: 1, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 15

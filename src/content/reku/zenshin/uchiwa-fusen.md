@@ -5,6 +5,7 @@ season: [summer]
 months: [7, 8]
 gyoji: []
 parts: [whole]
+icon: balloon
 load: { physical: 2, facilitation: 2, prep: 1 }
 budget: '1000'
 minutes: 15

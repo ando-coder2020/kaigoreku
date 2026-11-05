@@ -3,6 +3,7 @@ title: 座ったまま足ぶみ運動会
 description: 2チームに分かれ、合図に合わせて足ぶみの回数を競う。座ったまま全員参加できる。
 season: [all]
 parts: [foot]
+icon: foot
 load: { physical: 2, facilitation: 2, prep: 1 }
 budget: '1000'
 minutes: 15

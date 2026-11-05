@@ -5,6 +5,7 @@ season: [winter]
 months: [2]
 gyoji: [節分]
 parts: [whole, hand]
+icon: face
 load: { physical: 2, facilitation: 2, prep: 1 }
 budget: '0'
 minutes: 20

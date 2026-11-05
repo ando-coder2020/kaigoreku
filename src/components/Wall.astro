@@ -1,56 +1,65 @@
 ---
-// トップの壁面。色紙が1枚ずつ貼られて完成する（動きを減らす設定では静止）
+// トップの壁面。季節の切り絵が1枚ずつ貼られて完成する（閲覧日の季節を表示。動きを減らす設定では静止）
 import { WALLS } from '../lib/walls';
+import { iconSvg } from '../lib/icons';
 import { monthToSeason } from '../lib/taxonomy';
-const s = monthToSeason(new Date().getMonth() + 1);
-const w = WALLS[s];
+const now = monthToSeason(new Date().getMonth() + 1);
+const labels = Object.fromEntries(Object.entries(WALLS).map(([k, v]) => [k, v.label]));
+
+// 上部の旗（ガーランド）
+const flagSvg = (colors: string[]) =>
+  `<path d="M10 22 Q300 70 590 22" fill="none" stroke="#8C7F6C" stroke-width="2"/>` +
+  Array.from({ length: 11 }, (_, i) => {
+    const x = 30 + i * 54;
+    const t = (x - 10) / 580;
+    const y = 22 + 4 * 48 * t * (1 - t);
+    return `<polygon points="${x - 16},${y} ${x + 16},${y} ${x},${y + 30}" fill="${colors[i % colors.length]}" stroke="#FFFDF8" stroke-width="1"/>`;
+  }).join('');
+
+const sets = Object.entries(WALLS).map(([key, w]) => {
+  const items = w.items
+    .map(([icon, x, y, size, rot, color], i) => {
+      const s = size / 100;
+      return `<g class="pin" style="--d:${0.15 + i * 0.22}s"><g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">
+        <rect x="-8" y="-8" width="116" height="116" rx="12" fill="#FFFDF8" opacity=".9"/>
+        <rect x="32" y="-16" width="36" height="14" fill="#E6C15A" opacity=".9" transform="rotate(-6 50 -9)"/>
+        ${iconSvg(icon, color)}</g></g>`;
+    })
+    .join('');
+  return `<g class="set" data-season="${key}">${flagSvg(w.flags)}${items}</g>`;
+}).join('');
 ---
-<div class="wall" role="img" aria-label={w.label} data-walls={JSON.stringify(WALLS)} style={`--c1:${w.c1};--c2:${w.c2};--c3:${w.c3}`}>
-  <span class="pin p1" style="--r:-6deg;--d:.1s"></span>
-  <span class="pin p2" style="--r:10deg;--d:.35s"></span>
-  <span class="pin p3" style="--r:-14deg;--d:.6s"></span>
-  <span class="pin p4" style="--r:8deg;--d:.85s"></span>
-  <span class="pin p5" style="--r:-4deg;--d:1.1s"></span>
-  <span class="pin t1" style="--r:-18deg;--d:.2s"></span>
-  <span class="pin t2" style="--r:14deg;--d:.45s"></span>
-  <span class="pin t3" style="--r:-10deg;--d:.7s"></span>
-  <span class="pin caption" style="--r:2deg;--d:1.35s" data-wall-label>{w.label}</span>
+<div class="wall" data-active={now} data-labels={JSON.stringify(labels)}>
+  <svg viewBox="0 0 600 380" role="img" aria-label={WALLS[now].label} set:html={sets} />
+  <span class="caption" data-wall-label>{WALLS[now].label}</span>
 </div>
 <script>
-  // ビルドした月と閲覧した月がずれても、壁面は閲覧日の季節に合わせる
+  // ビルドした月と閲覧した月がずれても、閲覧日の季節を表示する
   const el = document.querySelector<HTMLElement>('.wall');
   if (el) {
-    const walls = JSON.parse(el.dataset.walls || '{}');
     const m = new Date().getMonth() + 1;
     const s = m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : m >= 9 && m <= 11 ? 'autumn' : 'winter';
-    const w = walls[s];
-    if (w) {
-      el.style.setProperty('--c1', w.c1); el.style.setProperty('--c2', w.c2); el.style.setProperty('--c3', w.c3);
-      el.setAttribute('aria-label', w.label);
-      const cap = el.querySelector('[data-wall-label]'); if (cap) cap.textContent = w.label;
-    }
+    const labels = JSON.parse(el.dataset.labels || '{}');
+    el.dataset.active = s;
+    const cap = el.querySelector('[data-wall-label]');
+    if (cap && labels[s]) cap.textContent = labels[s];
+    el.querySelector('svg')?.setAttribute('aria-label', labels[s] || '');
   }
 </script>
 <style>
-  .wall { position: relative; height: 380px; background: var(--wall); border-radius: var(--radius); overflow: hidden; }
-  .pin { position: absolute; display: block; animation: pin .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d); transform: rotate(var(--r)); }
+  .wall { position: relative; background: var(--wall); border-radius: var(--radius); overflow: hidden; }
+  .wall svg { display: block; width: 100%; height: auto; }
+  .wall :global(.set) { display: none; }
+  .wall[data-active='spring'] :global(.set[data-season='spring']),
+  .wall[data-active='summer'] :global(.set[data-season='summer']),
+  .wall[data-active='autumn'] :global(.set[data-season='autumn']),
+  .wall[data-active='winter'] :global(.set[data-season='winter']) { display: inline; }
+  .wall :global(.pin) { transform-box: fill-box; transform-origin: center; animation: pin .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d); }
   @keyframes pin {
-    0% { opacity: 0; transform: translateY(-28px) rotate(var(--r)) scale(1.05); }
-    70% { opacity: 1; transform: translateY(3px) rotate(var(--r)); }
-    100% { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+    0% { opacity: 0; transform: translateY(-24px) scale(1.06); }
+    70% { opacity: 1; transform: translateY(3px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
-  .p1 { left: 12%; top: 14%; width: 150px; height: 120px; background: var(--c1); border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%; }
-  .p2 { left: 46%; top: 8%; width: 110px; height: 96px; background: var(--c2); border-radius: 52% 48% 58% 42% / 46% 56% 44% 54%; }
-  .p3 { right: 8%; top: 30%; width: 130px; height: 112px; background: var(--c3); border-radius: 42% 58% 50% 50% / 56% 46% 54% 44%; }
-  .p4 { left: 26%; top: 52%; width: 120px; height: 100px; background: var(--c2); border-radius: 50% 50% 46% 54% / 44% 56% 44% 56%; }
-  .p5 { right: 22%; bottom: 10%; width: 96px; height: 84px; background: var(--c1); border-radius: 54% 46% 52% 48% / 48% 52% 48% 52%; }
-  .t1, .t2, .t3 { width: 54px; height: 16px; background: var(--tape); opacity: .9; }
-  .t1 { left: 16%; top: 11%; } .t2 { left: 50%; top: 5%; } .t3 { right: 12%; top: 27%; }
-  .caption { left: 6%; bottom: 8%; background: var(--card); padding: 8px 16px; font-family: var(--font-display); font-weight: 700; font-size: 16px; }
-  @media (max-width: 720px) {
-    .wall { height: 220px; }
-    .p1 { width: 92px; height: 76px; } .p2 { width: 66px; height: 58px; } .p3 { width: 78px; height: 66px; }
-    .p4 { width: 70px; height: 60px; } .p5 { width: 58px; height: 50px; }
-    .caption { font-size: 13px; }
-  }
+  .caption { position: absolute; left: 4%; bottom: 7%; background: var(--card); padding: 6px 14px; font-family: var(--font-display); font-weight: 700; font-size: 15px; transform: rotate(-1.5deg); }
+  @media (max-width: 720px) { .caption { font-size: 13px; } }
 </style>

@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Level from '../../components/Level.astro';
 import RekuCard from '../../components/RekuCard.astro';
 import FavButton from '../../components/FavButton.astro';
+import RekuThumb from '../../components/RekuThumb.astro';
 import { SEASONS, BODY, BUDGET, BUDGET_SLUG, LEVEL_WORD, SITUATIONS, situationsOf, getPublishedReku } from '../../lib/taxonomy';
 
 export async function getStaticPaths() {
@@ -46,7 +47,12 @@ const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() +
         {d.summary.length > 0 && <ul>{d.summary.map((s) => <li>{s}</li>)}</ul>}
       </section>
 
-      {d.image && <figure class="paper photo"><img src={d.image} alt={`${d.title}の様子`} width="1200" height="800" /></figure>}
+      <figure class="paper photo">
+        {d.image
+          ? <img src={d.image} alt={`${d.title}の様子`} width="1200" height="800" />
+          : <RekuThumb icon={d.icon} season={d.season[0]} label={d.title} seed={reku.id} />}
+        {!d.image && <figcaption>イメージ図（写真が入るまでの仮の画像です）</figcaption>}
+      </figure>
 
       <section aria-labelledby="steps-h">
         <h2 id="steps-h" class="h2">すすめかた</h2>
@@ -138,7 +144,8 @@ const fmt = (date?: Date) => date ? `${date.getFullYear()}年${date.getMonth() +
   .facts dt { font-size: 13px; color: var(--ink-3); }
   .facts dd { margin: 0; font-size: 18px; font-weight: 700; }
   .summary ul { margin: 0; padding-left: 1.2em; }
-  .photo { margin: 0; padding: 16px; }
+  .photo { margin: 0; padding: 16px; max-width: 560px; }
+  .photo figcaption { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
   .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
   .steps li { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 1px solid var(--line-2); padding: 16px 18px; }
   .num { flex: 0 0 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--card); display: flex; align-items: center; justify-content: center; font-weight: 700; }
