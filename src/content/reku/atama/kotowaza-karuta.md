@@ -1,6 +1,6 @@
 ---
 urlname: kotowaza-karuta
-title: ことわざ穴埋めカルタ
+title: ことわざ穴埋めカルタカード合戦
 description: ことわざの前半を読み上げ、後半の札を探してもらう。準備は札だけで、すぐ始められる。
 season:
   - all
@@ -31,7 +31,7 @@ steps:
   - 取った札の数ではなく、全部読み終わったら拍手で終わる
 script:
   start: 今日はことわざのカルタです。前半を読みますので、続きの札を探してくださいね。声で答えても大丈夫です。
-  middle: 正解です！よくご存じですね。
+  middle: 正解です！よくご存じですね。すばらしい！！！
   end: 全部の札がそろいました。たくさん頭を使いましたね。
 safety: ''
 image: /uploads/karuta .png
@@ -41,7 +41,7 @@ downloads:
     format: PDF・A4
 aiDraft: true
 writer: W-000
-reviewer: sample
+reviewer: 高山
 checkedAt: 2026-11-05
 publishedAt: 2026-11-05
 draft: false
