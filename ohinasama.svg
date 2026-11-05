@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 260" role="img" aria-label="おひなさまの作り方"><defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#D2703A"/></marker></defs><g transform="translate(0 0)">
+<rect x="8" y="8" width="204" height="244" rx="14" fill="#FFFDF8" stroke="#CBBFA8" stroke-width="2"/>
+<circle cx="34" cy="34" r="16" fill="#2B2622"/><text x="34" y="40" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFDF8" font-family="sans-serif">1</text>
+<g transform="translate(40.0 50)"><rect x="20" y="10" width="100" height="100" fill="#D9556B" stroke="#2B2622" stroke-width="2.5"/><line x1="20" y1="10" x2="120" y2="110" stroke="#2B2622" stroke-width="2" stroke-dasharray="6 5" fill="none"/><line x1="110" y1="20" x2="40" y2="90" stroke="#D2703A" stroke-width="3" marker-end="url(#a)"/></g>
+<text x="110.0" y="220" text-anchor="middle" font-size="15" fill="#2B2622" font-family="'BIZ UDPGothic','Noto Sans CJK JP',sans-serif"><tspan x="110.0">角と角を合わせて</tspan><tspan x="110.0" dy="20">三角に折る</tspan></text>
+</g><g transform="translate(220 0)">
+<rect x="8" y="8" width="204" height="244" rx="14" fill="#FFFDF8" stroke="#CBBFA8" stroke-width="2"/>
+<circle cx="34" cy="34" r="16" fill="#2B2622"/><text x="34" y="40" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFDF8" font-family="sans-serif">2</text>
+<g transform="translate(40.0 50)"><polygon points="70,10 135,130 5,130" fill="#D9556B" stroke="#2B2622" stroke-width="2.5"/></g>
+<text x="110.0" y="232" text-anchor="middle" font-size="15" fill="#2B2622" font-family="'BIZ UDPGothic','Noto Sans CJK JP',sans-serif">三角（着物）ができた</text>
+</g><g transform="translate(440 0)">
+<rect x="8" y="8" width="204" height="244" rx="14" fill="#FFFDF8" stroke="#CBBFA8" stroke-width="2"/>
+<circle cx="34" cy="34" r="16" fill="#2B2622"/><text x="34" y="40" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFDF8" font-family="sans-serif">3</text>
+<g transform="translate(40.0 50)"><polygon points="70,10 135,130 5,130" fill="#D9556B" stroke="#2B2622" stroke-width="2.5"/><polygon points="52,44 88,44 70,62" fill="#F7D9DB" stroke="#2B2622" stroke-width="2.5"/><line x1="70" y1="16" x2="70" y2="40" stroke="#D2703A" stroke-width="3" marker-end="url(#a)"/></g>
+<text x="110.0" y="220" text-anchor="middle" font-size="15" fill="#2B2622" font-family="'BIZ UDPGothic','Noto Sans CJK JP',sans-serif"><tspan x="110.0">上の角を少し下に折る</tspan><tspan x="110.0" dy="20">（えり）</tspan></text>
+</g><g transform="translate(660 0)">
+<rect x="8" y="8" width="204" height="244" rx="14" fill="#FFFDF8" stroke="#CBBFA8" stroke-width="2"/>
+<circle cx="34" cy="34" r="16" fill="#2B2622"/><text x="34" y="40" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFDF8" font-family="sans-serif">4</text>
+<g transform="translate(40.0 50)"><polygon points="70,40 135,130 5,130" fill="#D9556B" stroke="#2B2622" stroke-width="2.5"/><polygon points="52,44 88,44 70,62" fill="#F7D9DB" stroke="#2B2622" stroke-width="2.5"/><circle cx="70" cy="26" r="20" fill="#FFFFFF" stroke="#2B2622" stroke-width="2.5"/><circle cx="63" cy="24" r="2" fill="#2B2622"/><circle cx="77" cy="24" r="2" fill="#2B2622"/><path d="M64 32 Q70 36 76 32" fill="none" stroke="#2B2622" stroke-width="2"/><path d="M50 18 Q70 -4 90 18" fill="#2B2622"/></g>
+<text x="110.0" y="220" text-anchor="middle" font-size="15" fill="#2B2622" font-family="'BIZ UDPGothic','Noto Sans CJK JP',sans-serif"><tspan x="110.0">顔を描いた紙を</tspan><tspan x="110.0" dy="20">上に貼る</tspan></text>
+</g></svg>

@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { getPublishedReku } from '../lib/taxonomy';
+const items = (await getPublishedReku()).flatMap((r) => r.data.downloads.filter((f) => f.url.startsWith('/') || f.url.startsWith('https://')).map((f) => ({ ...f, reku: r })));
+---
+<Base title="塗り絵・素材ダウンロード" description="介護レクで使える塗り絵・ルール表などの素材。">
+  <section class="wrap section">
+    <h1 class="h1">塗り絵・素材</h1>
+    <p class="lead">太い線・大きめの区画で、塗りやすく作っています。塗り終えたら、そのまま壁面飾りに使えます。</p>
+    {items.length > 0
+      ? <ul class="list">{items.map((f) => (
+          <li class="paper item">
+            <a href={f.url} download class="dl">{f.label}<span>（{f.format}）</span></a>
+            <a href={`/reku/${f.reku.id}/`} class="from">使い方：{f.reku.data.title}</a>
+          </li>))}</ul>
+      : <p class="empty">素材は準備中です。</p>}
+  </section>
+</Base>
+<style>
+  .h1 { font-size: 32px; margin-bottom: 8px; }
+  .list { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+  .item { padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .dl { font-weight: 700; font-size: 17px; }
+  .dl span { font-weight: 400; font-size: 14px; color: var(--ink-3); }
+  .from { font-size: 14px; color: var(--ink-3); }
+  .empty { padding: 24px 0; }
+</style>
