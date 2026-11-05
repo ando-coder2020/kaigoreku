@@ -1,12 +1,20 @@
 ---
+urlname: hinamatsuri-tsurushi
 title: ひな祭りの折り紙つるし飾り
 description: 折り紙でおひなさま・菱餅・桃の花を作り、ひもに通してつるし飾りに。完成品は3月の壁面に。
-season: [spring]
-months: [2, 3]
-gyoji: [ひな祭り]
-parts: [hand]
-icon: paper
-load: { physical: 1, facilitation: 1, prep: 2 }
+season:
+  - spring
+months:
+  - 2
+  - 3
+gyoji:
+  - ひな祭り
+parts:
+  - hand
+load:
+  physical: 1
+  facilitation: 1
+  prep: 2
 budget: '1000'
 minutes: 40
 people: 4〜10人
@@ -16,7 +24,15 @@ summary:
   - 折り紙で「おひなさま」「菱餅」「桃の花」を作り、ひもにつるす
   - 折り紙が得意な方も苦手な方も、難しさを選んで参加できる
   - 一人ひとつずつ作り、つなげると大きな飾りになる
-materials: [折り紙（ピンク・赤・白・緑・黄）, 顔用の白い丸い紙, ペン, スティックのり, はさみ（先の丸いもの）, ひも, セロハンテープ, 見本の完成品]
+materials:
+  - 折り紙（ピンク・赤・白・緑・黄）
+  - 顔用の白い丸い紙
+  - ペン
+  - スティックのり
+  - はさみ（先の丸いもの）
+  - ひも
+  - セロハンテープ
+  - 見本の完成品
 steps:
   - 見本を見せ、作るもの（おひなさま・菱餅・桃の花）を選んでもらう
   - 下の「作り方」を見ながら、スタッフが一緒にゆっくり作る
@@ -27,12 +43,16 @@ script:
   middle: きれいに折れていますね。おひなさまの着物は、何色にしましょうか。
   end: みんなの飾りがつながって、華やかになりました。お部屋に飾りましょう。
 safety: 折り紙が難しい方には、スタッフが途中まで折ったものを渡し、最後の工程だけをお願いしてください。はさみは先の丸いものを使い、スタッフの目の届くところで使います。
+image: /uploads/スクリーンショット 2026-11-05 193527.png
+icon: paper
+downloads: []
 aiDraft: true
 writer: W-000
 reviewer: sample
 checkedAt: 2026-11-05
 publishedAt: 2026-10-28
 draft: false
+sample: false
 ---
 
 ※サンプル記事です。公開前に削除してください。
